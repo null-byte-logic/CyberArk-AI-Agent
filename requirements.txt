@@ -1,0 +1,5 @@
+# Agent runtime (packaged into the AgentCore Runtime container)
+strands-agents>=1.10
+bedrock-agentcore>=1.0
+mcp>=1.12
+boto3>=1.40

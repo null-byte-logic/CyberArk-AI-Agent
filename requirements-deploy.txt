@@ -1,0 +1,4 @@
+# Tools used by scripts/ in CloudShell
+boto3>=1.40
+pyyaml>=6
+bedrock-agentcore-starter-toolkit>=0.1.30

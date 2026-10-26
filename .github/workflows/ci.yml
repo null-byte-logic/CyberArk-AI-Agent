@@ -1,0 +1,20 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+      - name: Syntax check
+        run: python -m py_compile agent/*.py scripts/*.py evals/*.py gateway/lambda/*/handler.py kb/*.py
+      - name: Secret scan
+        run: |
+          if grep -RInE "(AKIA|ASIA)[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----" --exclude-dir=.git --exclude-dir=tests .; then
+            echo "Possible secret committed"; exit 1; fi

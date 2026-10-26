@@ -1,0 +1,56 @@
+[
+ {
+  "name": "query",
+  "description": "Search forwarded CyberArk component logs (newest first) for one environment. Use exact error codes in 'contains'. For DR replication use component padr in onprem.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "component": {
+     "type": "string",
+     "enum": [
+      "vault",
+      "dr-vault",
+      "padr",
+      "pvwa",
+      "cpm",
+      "psm",
+      "psmp",
+      "pta",
+      "connector",
+      "conjur",
+      "epm"
+     ]
+    },
+    "contains": {
+     "type": "string",
+     "description": "Text or error code to match, e.g. CACPM410E"
+    },
+    "host": {
+     "type": "string",
+     "description": "Optional host name filter"
+    },
+    "hours": {
+     "type": "integer",
+     "description": "Look-back window, 1-72, default 24"
+    },
+    "limit": {
+     "type": "integer",
+     "description": "Max lines, default 50, max 200"
+    }
+   },
+   "required": [
+    "environment",
+    "component"
+   ]
+  }
+ }
+]

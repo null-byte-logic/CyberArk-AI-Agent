@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: ITSM (ServiceNow) tools for the CyberArk Engineer agent
+  version: 1.0.0
+  description: >
+    Curated subset of the ServiceNow Table API. Gateway exposes each operationId
+    as an MCP tool named itsm___<operationId>. Replace the server URL with your
+    instance. Swap for Jira Service Management if that is your ITSM.
+servers:
+  - url: https://YOUR_INSTANCE.service-now.com
+paths:
+  /api/now/table/{table}/{sys_id}:
+    get:
+      operationId: get_ticket
+      summary: Read an incident, request item or change by sys_id.
+      parameters:
+        - {name: table, in: path, required: true, schema: {type: string, enum: [incident, sc_req_item, change_request]}}
+        - {name: sys_id, in: path, required: true, schema: {type: string}}
+        - {name: sysparm_fields, in: query, required: false,
+           schema: {type: string, default: "number,short_description,description,state,priority,assignment_group,cmdb_ci,work_notes,approval"}}
+      responses:
+        "200": {description: Ticket record}
+    patch:
+      operationId: update_ticket
+      summary: Add work notes or change state on a ticket.
+      parameters:
+        - {name: table, in: path, required: true, schema: {type: string, enum: [incident, sc_req_item, change_request]}}
+        - {name: sys_id, in: path, required: true, schema: {type: string}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_notes: {type: string, description: Agent findings and actions}
+                state: {type: string}
+                assignment_group: {type: string}
+      responses:
+        "200": {description: Updated}
+  /api/now/table/sysapproval_approver:
+    post:
+      operationId: request_approval
+      summary: Raise an approval for a planned write action on a ticket.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [document_id, comments]
+              properties:
+                document_id: {type: string, description: sys_id of the ticket}
+                approver: {type: string, description: sys_id of approver or group}
+                comments: {type: string, description: "Plan: action id, tool, exact JSON arguments, reason, expected result, rollback"}
+      responses:
+        "201": {description: Approval requested}
+  /api/now/table/incident:
+    get:
+      operationId: find_ticket
+      summary: Find an incident by number.
+      parameters:
+        - {name: sysparm_query, in: query, required: true, schema: {type: string, example: "number=INC0012345"}}
+        - {name: sysparm_limit, in: query, schema: {type: integer, default: 1}}
+      responses:
+        "200": {description: Matching incidents}

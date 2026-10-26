@@ -1,0 +1,10 @@
+.env
+outputs/
+.venv/
+__pycache__/
+*.pyc
+.bedrock_agentcore.yaml
+.bedrock_agentcore/
+kb-source/
+*.zip
+.DS_Store

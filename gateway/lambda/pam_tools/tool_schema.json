@@ -1,0 +1,464 @@
+[
+ {
+  "name": "get_account",
+  "description": "Get a CyberArk account's properties and secretManagement status. Never returns the secret.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "account_id": {
+     "type": "string",
+     "description": "Account ID, e.g. 12_34"
+    }
+   },
+   "required": [
+    "environment",
+    "account_id"
+   ]
+  }
+ },
+ {
+  "name": "search_accounts",
+  "description": "Search accounts by keyword (address, username, name) and optionally safe.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "search": {
+     "type": "string"
+    },
+    "safe_name": {
+     "type": "string"
+    },
+    "limit": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "environment",
+    "search"
+   ]
+  }
+ },
+ {
+  "name": "get_account_activity",
+  "description": "Recent activities on an account: CPM verify/change/reconcile results, retrievals, connections.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "account_id": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "account_id"
+   ]
+  }
+ },
+ {
+  "name": "get_user",
+  "description": "Vault user details including suspended and enabled state.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "user_id": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "user_id"
+   ]
+  }
+ },
+ {
+  "name": "search_users",
+  "description": "Search vault users by username or name.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "search": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "search"
+   ]
+  }
+ },
+ {
+  "name": "get_safe_members",
+  "description": "List members of a safe with their permissions.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "safe_name": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "safe_name"
+   ]
+  }
+ },
+ {
+  "name": "get_platform",
+  "description": "Platform definition and policy parameters.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "platform_id": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "platform_id"
+   ]
+  }
+ },
+ {
+  "name": "system_health",
+  "description": "Component health from System Health.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "component": {
+     "type": "string",
+     "enum": [
+      "PVWA",
+      "SessionManagement",
+      "CPM",
+      "PTA",
+      "AIM"
+     ]
+    }
+   },
+   "required": [
+    "environment",
+    "component"
+   ]
+  }
+ },
+ {
+  "name": "verify_account",
+  "description": "Trigger a CPM verify on an account. Non-destructive. Requires approval_token in pc-prod and onprem.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "account_id": {
+     "type": "string"
+    },
+    "approval_token": {
+     "type": "string",
+     "description": "Required in pc-prod and onprem"
+    }
+   },
+   "required": [
+    "environment",
+    "account_id"
+   ]
+  }
+ },
+ {
+  "name": "activate_user",
+  "description": "Re-activate a suspended vault user. Requires approval_token in pc-prod and onprem.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "user_id": {
+     "type": "string"
+    },
+    "approval_token": {
+     "type": "string",
+     "description": "Required in pc-prod and onprem"
+    }
+   },
+   "required": [
+    "environment",
+    "user_id"
+   ]
+  }
+ },
+ {
+  "name": "change_account",
+  "description": "Trigger an immediate CPM password change. Requires approval_token.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "account_id": {
+     "type": "string"
+    },
+    "approval_token": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "account_id"
+   ]
+  }
+ },
+ {
+  "name": "reconcile_account",
+  "description": "Trigger CPM reconcile using the linked reconcile account. Requires approval_token.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "account_id": {
+     "type": "string"
+    },
+    "approval_token": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "account_id"
+   ]
+  }
+ },
+ {
+  "name": "add_safe",
+  "description": "Create a safe. Requires approval_token.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "safe_name": {
+     "type": "string"
+    },
+    "description": {
+     "type": "string"
+    },
+    "managing_cpm": {
+     "type": "string"
+    },
+    "retention_days": {
+     "type": "integer"
+    },
+    "approval_token": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "safe_name",
+    "managing_cpm"
+   ]
+  }
+ },
+ {
+  "name": "add_safe_member",
+  "description": "Add a member to a safe with a named permission profile (EndUser, Approver, Auditor, AccountsManager). Requires approval_token.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "safe_name": {
+     "type": "string"
+    },
+    "member_name": {
+     "type": "string"
+    },
+    "member_type": {
+     "type": "string",
+     "enum": [
+      "User",
+      "Group",
+      "Role"
+     ]
+    },
+    "search_in": {
+     "type": "string"
+    },
+    "permission_profile": {
+     "type": "string",
+     "enum": [
+      "EndUser",
+      "Approver",
+      "Auditor",
+      "AccountsManager"
+     ]
+    },
+    "approval_token": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "safe_name",
+    "member_name",
+    "permission_profile"
+   ]
+  }
+ },
+ {
+  "name": "add_account",
+  "description": "Onboard an account without a secret; CPM sets the password. Requires approval_token.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod",
+      "onprem"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "safe_name": {
+     "type": "string"
+    },
+    "platform_id": {
+     "type": "string"
+    },
+    "address": {
+     "type": "string"
+    },
+    "user_name": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "approval_token": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "safe_name",
+    "platform_id",
+    "address",
+    "user_name"
+   ]
+  }
+ }
+]

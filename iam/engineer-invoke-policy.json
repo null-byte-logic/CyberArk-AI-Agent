@@ -1,0 +1,14 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "InvokeCyberArkEngineerAgent",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock-agentcore:InvokeAgentRuntime",
+        "bedrock-agentcore:InvokeAgentRuntimeForUser"
+      ],
+      "Resource": "arn:aws:bedrock-agentcore:ap-southeast-2:058264514744:runtime/cyberark_engineer-*"
+    }
+  ]
+}

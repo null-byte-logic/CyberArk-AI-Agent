@@ -1,0 +1,53 @@
+[
+ {
+  "name": "get_user",
+  "description": "CyberArk Identity user details, lock and MFA state (Privilege Cloud tenants only).",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "username": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "username"
+   ]
+  }
+ },
+ {
+  "name": "unlock_user",
+  "description": "Unlock a CyberArk Identity user (Privilege Cloud tenants only). Requires approval_token in pc-prod.",
+  "inputSchema": {
+   "type": "object",
+   "properties": {
+    "environment": {
+     "type": "string",
+     "enum": [
+      "pc-preprod",
+      "pc-prod"
+     ],
+     "description": "Target environment: pc-preprod (Privilege Cloud pre-prod), pc-prod (Privilege Cloud prod), onprem (self-hosted PAM, Primary/DR Vault)"
+    },
+    "user_uuid": {
+     "type": "string"
+    },
+    "approval_token": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "environment",
+    "user_uuid"
+   ]
+  }
+ }
+]
