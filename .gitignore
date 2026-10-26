@@ -8,3 +8,5 @@ __pycache__/
 kb-source/
 *.zip
 .DS_Store
+logs/
+support-bundle-*.md

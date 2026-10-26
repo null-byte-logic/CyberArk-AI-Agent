@@ -14,6 +14,18 @@ Every CyberArk tool takes a required `environment` argument, and a ticket is pin
 
 Design document: *CyberArk Engineer Agent on Amazon Bedrock AgentCore — Solution Design* (shared separately).
 
+## AWS-only bill of materials
+
+| Layer | Service |
+| --- | --- |
+| AI | Amazon Bedrock (Claude models via inference profiles, Knowledge Bases, Guardrails, Titan embeddings) |
+| Agent platform | Amazon Bedrock AgentCore (Runtime, Gateway, Identity, Memory, Policy, Observability, Evaluations) |
+| Supporting AWS | IAM, S3 + S3 Vectors, Secrets Manager, Lambda (tool code), Cognito (Gateway machine sign-in), CloudWatch, CodeBuild + ECR (agent build), CloudShell (deploy) |
+| Approvals | `scripts/approve.py` → approvals Lambda, authorised by IAM; no ITSM needed |
+| Help while deploying | Amazon Q Developer, using `AGENTS.md`, `.amazonq/rules/` and `scripts/support_bundle.py` |
+
+The agent code uses the open-source Strands Agents SDK (from AWS) and the AgentCore SDK; both are packaged into the runtime. The ServiceNow connector is optional and off by default.
+
 ## How it works
 
 ```
@@ -79,8 +91,10 @@ tests/              Unit tests (standard library only)
    .venv/bin/python scripts/sync_kb.py
    ```
 6. Try it: `.venv/bin/python scripts/invoke.py "Why is the CPM showing disconnected?" --env pc-preprod --ticket INC0000001 --tier L2`
-7. Run the golden set: `.venv/bin/python evals/run_evals.py`. Red-team cases must be 100%.
-8. After a week of clean traces, run `.venv/bin/python scripts/setup_policy.py --enforce`.
+7. If a step fails, run `.venv/bin/python scripts/support_bundle.py` and ask Amazon Q Developer. See `docs/TROUBLESHOOTING.md`.
+8. When the agent proposes a write and replies `APPROVAL_REQUIRED`, an authorised engineer approves it with `.venv/bin/python scripts/approve.py --ticket … --tool … --args '…'` and gives the agent the token.
+9. Run the golden set: `.venv/bin/python evals/run_evals.py`. Red-team cases must be 100%.
+10. After a week of clean traces, run `.venv/bin/python scripts/setup_policy.py --enforce`.
 
 Engineer access is your existing SSO. Attach `iam/engineer-invoke-policy.json` to the IAM Identity Center permission set engineers use.
 

@@ -60,7 +60,11 @@ The DR Vault has no REST API and is passive, so the agent only diagnoses it thro
 
 Set `LOG_GROUP_PREFIX` on the Lambda if your names differ. Mask passwords at the agent if any trace level logs them; the Lambda redacts too.
 
-## ITSM (optional, phase 1 works without it)
+## Approvals (AWS-only)
+
+Approvals need no ITSM. The agent replies `APPROVAL_REQUIRED` with the exact tool and arguments. An engineer whose IAM role may invoke the `cyberark-engineer-approvals` Lambda runs `scripts/approve.py`, which records their identity as approver and returns a token bound to those exact arguments and environment. CloudTrail records each approval. Restrict who can approve through that IAM permission, for example a separate "PAM approver" permission set in IAM Identity Center.
+
+## ITSM (optional, off by default; not needed for an AWS-only deployment)
 
 1. Upload `gateway/openapi/itsm-servicenow.yaml` (with your instance URL) to the KB bucket under `config/`.
 2. Create an AgentCore Identity OAuth2 credential provider for ServiceNow (client credentials).
